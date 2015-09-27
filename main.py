@@ -60,14 +60,15 @@ def getOrder(origin,waypoints):
   data = requests.get(url).json()
   return data['routes'][0]['waypoint_order']
 
-def getDirectionURLs(waypoints):
+def getDirectionURLs(names,waypoints):
   result = []
   for i in xrange(len(waypoints)-1):
     source = waypoints[i]
     destination = waypoints[i+1]
+    name = names[i+1]
     url = 'https://www.google.co.in/maps/dir/'+source+'/'+destination
     # print url
-    result.append(url)
+    result.append([name,url])
   return result
 
 @app.route('/')
@@ -79,8 +80,8 @@ def map():
 def calculate():
   if request.method == 'GET':
     print 'f'
-    origin = request.args['source']
-    origin = urllib.quote_plus(origin)
+    origin_ = request.args['source']
+    origin = urllib.quote_plus(origin_)
     waypoints_ = request.args.getlist('waypoints[]')
     waypoints = [ urllib.quote_plus(i) for i in waypoints_]
     print waypoints
@@ -89,11 +90,15 @@ def calculate():
     # waypoints = ['Barossa+Valley,SA','Clare,SA','Connawarra,SA','McLaren+Vale,SA']
     order = getOrder(origin=origin,waypoints=waypoints)
     ordered_waypoints = list(waypoints)
+    names = list(waypoints_)
     for i,j in enumerate(order):
       ordered_waypoints[i] = waypoints[j]
+      names[i] = waypoints_[j]
+
+    ordered_names = [origin_] + names + [origin_]
     ordered_waypoints = [origin] + ordered_waypoints + [origin]
     # print ordered_waypoints
-    result = getDirectionURLs(waypoints=ordered_waypoints)
+    result = getDirectionURLs(names=ordered_names,waypoints=ordered_waypoints)
   else:
     print 'no POST baby'
   return render_template('result.html', name='map', result=result)

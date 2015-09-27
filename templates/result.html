@@ -34,11 +34,10 @@
       </div>
       <div class="row center">
       {% for i in result %}
-        <li><a href="{{ i }}">Direction to place</a></li>
+        <li><a href="{{ i[1] }}">Direction to {{ i[0] }}</a></li>
       {% endfor %}
       </div>
       <br><br>
-
     </div>
   </div>
 
