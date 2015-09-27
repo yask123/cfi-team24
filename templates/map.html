@@ -18,11 +18,11 @@
     <div id="listofelements">
       <label for="source">Your Location:</label>
       <br>
-      <input class="places source" name="source" type="text" size="50">
+      <input class="places source" id="source" name="source" type="text" size="50">
       <br>
       <label for="waypoint1">Destinations:</label>
       <br>
-      <input class="places waypoint" name="waypoint1" type="text" size="50">
+      <input class="places waypoint" id="waypoint1" name="waypoint1" type="text" size="50">
     </div>
     <br>
     <button onclick="addbox()">Add Location</button>
@@ -56,7 +56,8 @@
     function send() {
       var source = $('.source').val();
       var waypoints = $('.waypoint').map( function(){return $(this).val(); }).get();
-      document.location.href = "map?source=" + name + "&age=" + age;
+      params = $.param({source:source,waypoints:waypoints})
+      console.log("map?"+params);
     }
   </script>
 
