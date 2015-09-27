@@ -69,11 +69,11 @@ def getDirectionURLs(waypoints):
     result.append(url)
   return result
 
-@app.route('/map')
+@app.route('/')
 def map():
   return render_template('map.html', name='map')
 
-@app.route('/', methods=['GET'])
+@app.route('/map', methods=['GET'])
 @crossdomain(origin='*')
 def calculate():
   if request.method == 'GET':
