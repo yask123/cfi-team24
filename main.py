@@ -96,6 +96,7 @@ def calculate():
     result = getDirectionURLs(waypoints=ordered_waypoints)
   else:
     print 'no POST baby'
+  return render_template('result.html', name='map', result=result)
   return json.dumps(result)
 
 if __name__ == '__main__':
