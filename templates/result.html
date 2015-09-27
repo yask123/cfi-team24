@@ -33,8 +33,9 @@
         <h5 class="header col s12 light">Optimized location point route </h5>
       </div>
       <div class="row center">
-      <li>Point one</li>
-      <li>Point two</li>
+      {% for i in result %}
+        <li><a href="{{ i }}">Direction to place</a></li>
+      {% endfor %}
       </div>
       <br><br>
 
