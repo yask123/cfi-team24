@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, render_template
 from flask import make_response, current_app, abort, jsonify
 from datetime import timedelta
 from functools import update_wrapper
+import urllib
 import json
 import requests
 
@@ -77,9 +78,15 @@ def map():
 @crossdomain(origin='*')
 def calculate():
   if request.method == 'GET':
-    # print request.args
-    origin = 'Adelaide,SA'
-    waypoints = ['Barossa+Valley,SA','Clare,SA','Connawarra,SA','McLaren+Vale,SA']
+    print 'f'
+    origin = request.args['source']
+    origin = urllib.quote_plus(origin)
+    waypoints_ = request.args.getlist('waypoints[]')
+    waypoints = [ urllib.quote_plus(i) for i in waypoints_]
+    print waypoints
+
+    # origin = 'Adelaide,SA'
+    # waypoints = ['Barossa+Valley,SA','Clare,SA','Connawarra,SA','McLaren+Vale,SA']
     order = getOrder(origin=origin,waypoints=waypoints)
     ordered_waypoints = list(waypoints)
     for i,j in enumerate(order):
